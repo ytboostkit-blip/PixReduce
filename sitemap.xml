@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>YOUR-FREE-WEBSITE-URL/</loc>
+    <loc>https://pixreduce.ytboostkit.workers.dev/</loc>
   </url>
 
   <url>
-    <loc>YOUR-FREE-WEBSITE-URL/resize.html</loc>
+    <loc>https://pixreduce.ytboostkit.workers.dev/resize.html</loc>
   </url>
 
   <url>
-    <loc>YOUR-FREE-WEBSITE-URL/about.html</loc>
+    <loc>https://pixreduce.ytboostkit.workers.dev/about.html</loc>
   </url>
 
   <url>
-    <loc>YOUR-FREE-WEBSITE-URL/privacy.html</loc>
+    <loc>https://pixreduce.ytboostkit.workers.dev/privacy.html</loc>
   </url>
 
 </urlset>
