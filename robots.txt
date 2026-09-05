@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://pixreduce.ytboostkit.workers.dev/sitemap.xml
+
