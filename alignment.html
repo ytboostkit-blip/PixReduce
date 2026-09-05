@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Align images easily with PixReduce. Move, center and position images precisely in your browser. 100% free.">
+    <meta name="keywords" content="image alignment, align image, image position tool, center image, free image tool">
+    <meta name="author" content="PixReduce">
+    <title>Image Alignment Tool — PixReduce</title>
+
+<link rel="stylesheet" href="./css/style.css?v=2">
+
+	<!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">P</span>
+            <span class="logo-text">
+                Pix<span>Reduce</span>
+            </span>
+        </a>
+
+    <nav class="main-nav">
+
+           <a href="index.html" class="nav-link">
+                    Image Compressor
+                </a>
+
+                <a href="resize.html" class="nav-link">
+                    Image Resizer
+                </a>
+				
+				<a href="alignment.html" class="nav-link">
+					Image Alignment
+				</a>
+
+				<a href="crop.html" class="nav-link">
+					Image Cropper
+				</a>
+
+    </nav>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark and light mode">☾</button>
+</div>
+
+</header>
+
+<main>
+
+<section class="hero-section">
+    <div class="container hero-content">
+        <div class="hero-badge">⚡ 100% Free • Browser-Based</div>
+
+        <h1>Align Images Easily</h1>
+
+        <p>
+            Position, center and align your images precisely without uploading them to a server.
+            Fast, private and completely free.
+        </p>
+
+        <div class="format-badges">
+            <span>JPG</span>
+            <span>PNG</span>
+            <span>WebP</span>
+            <span>No Upload Required</span>
+        </div>
+    </div>
+</section>
+
+<section class="tool-section">
+    <div class="container">
+
+        <div class="tool-card">
+
+            <div class="upload-area" id="alignmentUploadArea">
+                <div class="upload-icon">🖼️</div>
+
+                <h2>Drop your image here</h2>
+
+                <p>or</p>
+
+                <button class="primary-button" id="alignmentBrowseButton" type="button">
+                    Choose Image
+                </button>
+
+                <input
+                    type="file"
+                    id="alignmentImageInput"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden
+                >
+
+                <small>JPG, PNG or WebP</small>
+            </div>
+
+            <div class="alignment-workspace" id="alignmentResultArea" hidden>
+
+                <div class="alignment-preview-panel">
+                    <div class="preview-header">
+                        <h3>Preview</h3>
+                    </div>
+
+                    <div class="alignment-canvas-wrap" id="alignmentCanvasWrap">
+                        <canvas id="alignmentCanvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="alignment-controls">
+
+                    <div class="control-group">
+                        <label>Horizontal Alignment</label>
+
+                        <div class="control-buttons">
+                            <button type="button" class="secondary-button" id="alignLeftButton">
+                                Left
+                            </button>
+
+                            <button type="button" class="secondary-button" id="alignCenterButton">
+                                Center
+                            </button>
+
+                            <button type="button" class="secondary-button" id="alignRightButton">
+                                Right
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Vertical Alignment</label>
+
+                        <div class="control-buttons">
+                            <button type="button" class="secondary-button" id="alignTopButton">
+                                Top
+                            </button>
+
+                            <button type="button" class="secondary-button" id="alignMiddleButton">
+                                Middle
+                            </button>
+
+                            <button type="button" class="secondary-button" id="alignBottomButton">
+                                Bottom
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Image Position</label>
+
+                        <div class="position-buttons">
+                            <button type="button" class="secondary-button" id="moveLeftButton">←</button>
+                            <button type="button" class="secondary-button" id="moveUpButton">↑</button>
+                            <button type="button" class="secondary-button" id="moveDownButton">↓</button>
+                            <button type="button" class="secondary-button" id="moveRightButton">→</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="alignmentZoom">
+                            Zoom: <span id="alignmentZoomValue">100%</span>
+                        </label>
+
+                        <input
+                            type="range"
+                            id="alignmentZoom"
+                            min="25"
+                            max="200"
+                            value="100"
+                        >
+                    </div>
+
+                    <div class="control-group">
+                        <label>Rotation</label>
+
+                        <div class="control-buttons">
+                            <button type="button" class="secondary-button" id="rotateLeftButton">
+                                ↶ Rotate
+                            </button>
+
+                            <button type="button" class="secondary-button" id="rotateRightButton">
+                                Rotate ↷
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="alignment-actions">
+                        <button type="button" class="primary-button" id="centerImageButton">
+                            🎯 Center Image
+                        </button>
+
+                        <button type="button" class="primary-button" id="alignmentDownloadButton">
+                            Download Image
+                        </button>
+
+                        <button type="button" class="secondary-button" id="alignmentResetButton">
+                            Remove Image
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-content">
+
+    <div class="footer-brand">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">P</span>
+            <span class="logo-text">Pix<span>Reduce</span></span>
+        </a>
+
+        <p>Compress & Resize Images Instantly — 100% Free</p>
+    </div>
+
+    <div class="footer-links">
+
+            <a href="index.html">
+                Image Compressor
+            </a>
+
+            <a href="resize.html">
+                Image Resizer
+            </a>
+
+            <a href="alignment.html">
+                Image Alignment
+            </a>
+
+            <a href="crop.html">
+                Image Cropper
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="privacy.html">
+                Privacy Policy
+            </a>
+
+        </div>
+
+</div>
+
+<div class="container footer-bottom">
+    <p>© 2026 PixReduce. All rights reserved.</p>
+</div>
+
+</footer>
+
+<script src="./js/alignment.js?v=1"></script>
+
+<script>
+    const themeToggle = document.getElementById("themeToggle");
+
+    if (localStorage.getItem("pixreduce-theme") === "light") {
+        document.body.classList.add("light-mode");
+    }
+
+    themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("light-mode");
+
+        localStorage.setItem(
+            "pixreduce-theme",
+            document.body.classList.contains("light-mode") ? "light" : "dark"
+        );
+    });
+</script>
+
+</body>
+</html>

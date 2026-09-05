@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Image Cropper — PixReduce</title>
+<meta name="description" content="Free online image cropper with passport size, stamp size, aspect ratio, zoom, rotate and live preview.">
+
+<link rel="stylesheet" href="./css/style.css?v=2">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7XGEXBZPCZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7XGEXBZPCZ');
+</script>
+
+<style>
+    /* ================================
+       CROP PAGE
+    ================================= */
+
+    .crop-workspace {
+        width: 100%;
+    }
+
+    /* Upload */
+
+    .crop-upload-card {
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
+    .crop-upload-card .upload-area {
+        padding: 55px 30px;
+    }
+
+    #chooseImageBtn {
+        min-width: 180px;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: .2px;
+        border: none;
+        cursor: pointer;
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease,
+            opacity .2s ease;
+    }
+
+    #chooseImageBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(37,99,235,.28);
+    }
+
+    #chooseImageBtn:active {
+        transform: translateY(0);
+    }
+
+    /* Main 3 Column Layout */
+
+    .crop-editor-layout {
+        display: grid;
+        grid-template-columns: 255px minmax(0, 1fr) 280px;
+        gap: 18px;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .crop-panel {
+        border: 1px solid rgba(128,128,128,.18);
+        border-radius: 18px;
+        padding: 18px;
+        background: rgba(128,128,128,.035);
+        min-width: 0;
+    }
+
+    .crop-panel-title {
+        margin: 0 0 16px;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .crop-panel-subtitle {
+        margin: -8px 0 15px;
+        font-size: 12px;
+        line-height: 1.5;
+        opacity: .65;
+    }
+
+    /* Left Controls */
+
+    .crop-control-section {
+        margin-bottom: 18px;
+    }
+
+    .crop-control-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .crop-control-section label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 12px;
+        font-weight: 700;
+        opacity: .8;
+    }
+
+    .preset-select {
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(128,128,128,.28);
+        background: inherit;
+        color: inherit;
+        font-size: 13px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .preset-select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37,99,235,.10);
+    }
+
+    .preset-select option {
+        background: #ffffff;
+        color: #111111;
+    }
+
+    body:not(.light-mode) .preset-select option {
+        background: #1b1b1b;
+        color: #ffffff;
+    }
+
+    .crop-divider {
+        height: 1px;
+        background: rgba(128,128,128,.16);
+        margin: 17px 0;
+    }
+
+    /* Zoom */
+
+    .zoom-value {
+        float: right;
+        font-weight: 700;
+        opacity: .8;
+    }
+
+    #cropZoom {
+        width: 100%;
+        margin: 6px 0 0;
+        cursor: pointer;
+    }
+
+    /* Rotate buttons */
+
+    .rotate-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .rotate-btn {
+        min-height: 42px;
+        border-radius: 10px;
+        border: 1px solid rgba(128,128,128,.25);
+        background: rgba(128,128,128,.08);
+        color: inherit;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s ease;
+    }
+
+    .rotate-btn:hover {
+        transform: translateY(-1px);
+        border-color: #2563eb;
+    }
+
+    /* Info */
+
+    .crop-info-list {
+        display: grid;
+        gap: 8px;
+    }
+
+    .crop-info-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 11px;
+        border-radius: 10px;
+        background: rgba(128,128,128,.08);
+        font-size: 12px;
+    }
+
+    .crop-info-item span {
+        opacity: .65;
+    }
+
+    .crop-info-item strong {
+        font-size: 12px;
+    }
+
+    /* Center Editor */
+
+    .crop-canvas-panel {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 620px;
+    }
+
+    .crop-canvas-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .crop-canvas-header h3 {
+        margin: 0;
+        font-size: 17px;
+    }
+
+    .crop-canvas-tip {
+        font-size: 11px;
+        opacity: .6;
+        text-align: right;
+    }
+
+    .crop-editor {
+        flex: 1;
+        min-height: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        border-radius: 15px;
+        overflow: hidden;
+        background:
+            linear-gradient(45deg,#dddddd 25%,transparent 25%),
+            linear-gradient(-45deg,#dddddd 25%,transparent 25%),
+            linear-gradient(45deg,transparent 75%,#dddddd 75%),
+            linear-gradient(-45deg,transparent 75%,#dddddd 75%);
+        background-size: 20px 20px;
+        background-position:
+            0 0,
+            0 10px,
+            10px -10px,
+            -10px 0;
+    }
+
+    #cropCanvas {
+        display: block;
+        max-width: 100%;
+        max-height: 560px;
+        width: auto;
+        height: auto;
+        border-radius: 8px;
+        cursor: crosshair;
+        touch-action: none;
+        box-shadow: 0 8px 25px rgba(0,0,0,.16);
+    }
+
+    /* Right Preview */
+
+    .crop-preview-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .preview-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .preview-title-row h3 {
+        margin: 0;
+        font-size: 17px;
+    }
+
+    .preview-live {
+        font-size: 10px;
+        padding: 5px 8px;
+        border-radius: 20px;
+        background: rgba(37,99,235,.12);
+        color: #2563eb;
+        font-weight: 700;
+    }
+
+    .crop-preview-box {
+        flex: 1;
+        min-height: 330px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 14px;
+        padding: 12px;
+        background:
+            linear-gradient(45deg,#ddd 25%,transparent 25%),
+            linear-gradient(-45deg,#ddd 25%,transparent 25%),
+            linear-gradient(45deg,transparent 75%,#ddd 75%),
+            linear-gradient(-45deg,transparent 75%,#ddd 75%);
+        background-size: 20px 20px;
+        background-position:
+            0 0,
+            0 10px,
+            10px -10px,
+            -10px 0;
+    }
+
+    .crop-preview-box img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 5px;
+        box-shadow: 0 6px 20px rgba(0,0,0,.16);
+    }
+
+    .preview-note {
+        margin: 11px 0 0;
+        font-size: 11px;
+        line-height: 1.5;
+        opacity: .6;
+    }
+
+    /* Bottom Actions */
+
+    .crop-bottom-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 14px;
+    }
+
+    .crop-bottom-actions button {
+        min-height: 44px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    /* Make primary button premium */
+
+    .crop-bottom-actions .primary-btn {
+        border: none;
+        transition: .2s ease;
+    }
+
+    .crop-bottom-actions .primary-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(37,99,235,.25);
+    }
+
+    /* Upload area styling */
+
+    #cropUploadArea {
+        border-radius: 18px;
+        transition: .25s ease;
+    }
+
+    #cropUploadArea:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Desktop height optimization */
+
+    @media (min-width: 1001px) {
+
+        .crop-editor-layout {
+            min-height: 650px;
+        }
+
+        .crop-canvas-panel,
+        .crop-preview-panel {
+            height: 650px;
+            box-sizing: border-box;
+        }
+
+        .crop-editor {
+            min-height: 0;
+        }
+
+        .crop-preview-box {
+            min-height: 0;
+        }
+    }
+
+    /* Tablet */
+
+    @media (max-width: 1000px) {
+
+        .crop-editor-layout {
+            grid-template-columns: 220px minmax(0, 1fr);
+        }
+
+        .crop-preview-panel {
+            grid-column: 1 / -1;
+            min-height: 400px;
+        }
+
+        .crop-preview-box {
+            min-height: 320px;
+        }
+
+        .crop-canvas-panel {
+            min-height: 580px;
+        }
+    }
+
+    /* Mobile */
+
+    @media (max-width: 700px) {
+
+        .crop-editor-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .crop-panel {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .crop-canvas-panel {
+            min-height: 430px;
+            height: auto;
+        }
+
+        .crop-editor {
+            min-height: 350px;
+            padding: 8px;
+        }
+
+        #cropCanvas {
+            max-height: 390px;
+        }
+
+        .crop-preview-panel {
+            min-height: 380px;
+        }
+
+        .crop-preview-box {
+            min-height: 300px;
+        }
+
+        .crop-bottom-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .crop-upload-card .upload-area {
+            padding: 42px 20px;
+        }
+
+        .crop-canvas-header {
+            align-items: flex-start;
+        }
+
+        .crop-canvas-tip {
+            max-width: 130px;
+        }
+    }
+	
+	/* Crop Hero Center Alignment */
+
+	.hero .hero-content {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+	.hero .hero-content .hero-badge,
+	.hero .hero-content h1,
+	.hero .hero-content p,
+	.hero .hero-content .format-badges {
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+	.hero .hero-content p {
+	max-width: 720px;
+	}
+
+	.hero .format-badges {
+	justify-content: center;
+	}
+
+</style>
+
+	<!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container navbar">
+
+    <a href="index.html" class="logo">
+        <span class="logo-icon">P</span>
+        <span class="logo-text">
+            Pix<span>Reduce</span>
+        </span>
+    </a>
+
+    <nav class="main-nav">
+
+                <a href="index.html" class="nav-link">
+                    Image Compressor
+                </a>
+
+                <a href="resize.html" class="nav-link">
+                    Image Resizer
+                </a>
+				
+				<a href="alignment.html" class="nav-link">
+					Image Alignment
+				</a>
+
+				<a href="crop.html" class="nav-link">
+					Image Cropper
+				</a>
+
+            </nav>
+
+    <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Toggle dark and light mode">
+        ☾
+    </button>
+
+</div>
+
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="container hero-content">
+
+    <div class="hero-badge">
+        ⚡ 100% Free • Browser-Based
+    </div>
+
+    <h1>Crop Images Easily</h1>
+
+    <p>
+        Crop images precisely with free crop, passport size,
+        stamp size, aspect ratios, zoom, rotation and live preview.
+    </p>
+
+    <div class="format-badges">
+        <span>JPG</span>
+        <span>PNG</span>
+        <span>WebP</span>
+        <span>No Upload Required</span>
+    </div>
+
+</div>
+
+</section>
+
+
+<section class="tool-section">
+    <div class="container">
+
+    <div class="tool-card crop-workspace">
+
+        <!-- Upload -->
+        <div
+            class="crop-upload-card"
+            id="cropUploadArea">
+
+            <div class="upload-area">
+
+                <div class="upload-icon">✂️</div>
+
+                <h2>Drop your image here</h2>
+
+                <p>or click to browse from your device</p>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    id="chooseImageBtn">
+                    Choose Image
+                </button>
+
+                <input
+                    type="file"
+                    id="cropImageInput"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden>
+
+            </div>
+
+        </div>
+
+        <!-- Editor -->
+        <div
+            id="cropResultArea"
+            style="display:none;">
+
+            <div class="crop-editor-layout">
+
+                <!-- LEFT -->
+                <aside class="crop-panel">
+
+                    <h3 class="crop-panel-title">
+                        Crop Settings
+                    </h3>
+
+                    <p class="crop-panel-subtitle">
+                        Select a crop type or adjust the crop area manually.
+                    </p>
+
+                    <div class="crop-control-section">
+
+                        <label for="basicCropSelect">
+                            📐 Basic Crop
+                        </label>
+
+                        <select
+                            id="basicCropSelect"
+                            class="preset-select">
+
+                            <option value="free">
+                                Free Crop
+                            </option>
+
+                            <option value="1">
+                                1:1 Square
+                            </option>
+
+                            <option value="1.333333">
+                                4:3
+                            </option>
+
+                            <option value="1.777778">
+                                16:9
+                            </option>
+
+                            <option value="1.5">
+                                3:2
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="crop-control-section">
+
+                        <label for="passportSelect">
+                            🪪 Passport / Visa
+                        </label>
+
+                        <select
+                            id="passportSelect"
+                            class="preset-select">
+
+                            <option value="">
+                                Select Size
+                            </option>
+
+                            <option value="0.777778">
+                                India — 35 × 45 mm
+                            </option>
+
+                            <option value="1">
+                                US — 2 × 2 inch
+                            </option>
+
+                            <option value="0.777778">
+                                UK — 35 × 45 mm
+                            </option>
+
+                            <option value="0.777778">
+                                Schengen — 35 × 45 mm
+                            </option>
+
+                            <option value="0.714286">
+                                Canada — 50 × 70 mm
+                            </option>
+
+                            <option value="0.777778">
+                                Australia — 35 × 45 mm
+                            </option>
+
+                            <option value="0.6875">
+                                China — 33 × 48 mm
+                            </option>
+
+                            <option value="0.777778">
+                                Japan — 35 × 45 mm
+                            </option>
+
+                            <option value="1">
+                                Visa — 2 × 2 inch
+                            </option>
+
+                            <option value="0.75">
+                                30 × 40 mm
+                            </option>
+
+                            <option value="0.666667">
+                                30 × 45 mm
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="crop-control-section">
+
+                        <label for="stampSelect">
+                            📮 Stamp / Small Photo
+                        </label>
+
+                        <select
+                            id="stampSelect"
+                            class="preset-select">
+
+                            <option value="">
+                                Select Size
+                            </option>
+
+                            <option value="1.25">
+                                25 × 20 mm
+                            </option>
+
+                            <option value="1">
+                                25 × 25 mm
+                            </option>
+
+                            <option value="0.8">
+                                20 × 25 mm
+                            </option>
+
+                            <option value="1.2">
+                                30 × 25 mm
+                            </option>
+
+                            <option value="1.333333">
+                                40 × 30 mm
+                            </option>
+
+                            <option value="1.666667">
+                                50 × 30 mm
+                            </option>
+
+                            <option value="1.5">
+                                45 × 30 mm
+                            </option>
+
+                            <option value="2">
+                                50 × 25 mm
+                            </option>
+
+                            <option value="1.428571">
+                                50 × 35 mm
+                            </option>
+
+                            <option value="1.6">
+                                40 × 25 mm
+                            </option>
+
+                            <option value="1.75">
+                                35 × 20 mm
+                            </option>
+
+                            <option value="1">
+                                30 × 30 mm Square
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="crop-divider"></div>
+
+                    <div class="crop-control-section">
+
+                        <label for="cropZoom">
+                            Zoom
+                            <span
+                                class="zoom-value"
+                                id="zoomValue">
+                                100%
+                            </span>
+                        </label>
+
+                        <input
+                            type="range"
+                            id="cropZoom"
+                            min="50"
+                            max="200"
+                            value="100">
+
+                    </div>
+
+                    <div class="crop-control-section">
+
+                        <label>
+                            Rotation
+                        </label>
+
+                        <div class="rotate-buttons">
+
+                            <button
+                                type="button"
+                                class="rotate-btn"
+                                id="rotateLeft">
+                                ↶ Left
+                            </button>
+
+                            <button
+                                type="button"
+                                class="rotate-btn"
+                                id="rotateRight">
+                                ↷ Right
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="crop-divider"></div>
+
+                    <div class="crop-info-list">
+
+                        <div class="crop-info-item">
+                            <span>Crop</span>
+                            <strong id="cropDimensions">
+                                0 × 0
+                            </strong>
+                        </div>
+
+                        <div class="crop-info-item">
+                            <span>Mode</span>
+                            <strong id="cropMode">
+                                Free
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+                <!-- CENTER -->
+                <section class="crop-panel crop-canvas-panel">
+
+                    <div class="crop-canvas-header">
+
+                        <h3>
+                            ✂️ Crop Area
+                        </h3>
+
+                        <span class="crop-canvas-tip">
+                            Drag inside to move • Drag handles to resize
+                        </span>
+
+                    </div>
+
+                    <div class="crop-editor">
+
+                        <canvas id="cropCanvas"></canvas>
+
+                    </div>
+
+                </section>
+
+                <!-- RIGHT -->
+                <aside class="crop-panel crop-preview-panel">
+
+                    <div class="preview-title-row">
+
+                        <h3>
+                            Preview
+                        </h3>
+
+                        <span class="preview-live">
+                            LIVE
+                        </span>
+
+                    </div>
+
+                    <div class="crop-preview-box">
+
+                        <img
+                            id="cropPreview"
+                            alt="Cropped image preview">
+
+                    </div>
+
+                    <p class="preview-note">
+                        Your cropped image updates here automatically before download.
+                    </p>
+
+                    <div class="crop-bottom-actions">
+
+                        <button
+                            type="button"
+                            class="primary-btn"
+                            id="downloadCrop">
+                            ⬇ Download
+                        </button>
+
+                        <button
+                            type="button"
+                            class="secondary-btn"
+                            id="removeCrop">
+                            ✕ Remove
+                        </button>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+</main>
+
+<footer class="site-footer">
+
+    <div class="container footer-content">
+
+        <div class="footer-brand">
+
+            <a href="index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span class="logo-text">
+                    Pix<span>Reduce</span>
+                </span>
+            </a>
+
+            <p>
+                Compress & Resize Images Instantly — 100% Free
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                Image Compressor
+            </a>
+
+            <a href="resize.html">
+                Image Resizer
+            </a>
+
+            <a href="alignment.html">
+                Image Alignment
+            </a>
+
+            <a href="crop.html">
+                Image Cropper
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="privacy.html">
+                Privacy Policy
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="container footer-bottom">
+
+        <p>
+            © 2026 PixReduce. All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const themeToggle =
+        document.getElementById("themeToggle");
+
+    if (
+        localStorage.getItem("pixreduce-theme") === "light"
+    ) {
+        document.body.classList.add("light-mode");
+        themeToggle.textContent = "☀";
+    }
+
+    themeToggle.addEventListener("click", function () {
+
+        document.body.classList.toggle("light-mode");
+
+        if (
+            document.body.classList.contains("light-mode")
+        ) {
+
+            localStorage.setItem(
+                "pixreduce-theme",
+                "light"
+            );
+
+            themeToggle.textContent = "☀";
+
+        } else {
+
+            localStorage.setItem(
+                "pixreduce-theme",
+                "dark"
+            );
+
+            themeToggle.textContent = "☾";
+
+        }
+
+    });
+
+});
+</script>
+
+<script src="./js/crop.js?v=5"></script>
+
+</body>
+</html>
