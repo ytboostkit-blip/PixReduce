@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resize Images Online Free — PixReduce</title>
+
+    <meta name="description" content="Resize JPG, PNG and WebP images online for free. Quickly change image width and height directly in your browser with PixReduce.">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER / NAVBAR
+    ========================== -->
+    <header class="site-header">
+
+        <div class="container navbar">
+
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span class="logo-text">
+                    Pix<span>Reduce</span>
+                </span>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="main-nav">
+
+                <a href="index.html" class="nav-link">
+                    Image Compressor
+                </a>
+
+                <a href="resize.html" class="nav-link active">
+                    Image Resizer
+                </a>
+
+            </nav>
+
+            <!-- Theme Toggle -->
+            <button
+                class="theme-toggle"
+                id="themeToggle"
+                type="button"
+                aria-label="Toggle dark and light mode">
+                ☾
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    ⚡ Fast &nbsp;•&nbsp; Free &nbsp;•&nbsp; Browser Based
+                </div>
+
+                <h1>
+                    Resize Images <span>Instantly</span>
+                </h1>
+
+                <p>
+                    Change image width and height quickly without
+                    uploading your images to a server.
+                </p>
+
+                <div class="supported-formats">
+                    JPG &nbsp;•&nbsp; PNG &nbsp;•&nbsp; WebP
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESIZE TOOL -->
+        <section class="tool-section">
+
+            <div class="tool-container">
+
+                <!-- UPLOAD AREA -->
+                <div id="resizeUploadArea" class="upload-area">
+
+                    <div class="upload-icon">
+                        ↕
+                    </div>
+
+                    <h2>
+                        Drop your image here
+                    </h2>
+
+                    <p>
+                        or select an image from your device
+                    </p>
+
+                    <input
+                        type="file"
+                        id="resizeImageInput"
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                    >
+
+                    <button
+                        type="button"
+                        id="resizeBrowseButton"
+                        class="primary-button">
+                        Choose Image
+                    </button>
+
+                    <small>
+                        Maximum supported formats: JPG, PNG, WebP
+                    </small>
+
+                </div>
+
+
+                <!-- RESULT AREA -->
+                <div
+                    id="resizeResultArea"
+                    class="result-area"
+                    style="display: none;"
+                >
+
+                    <div class="result-header">
+
+                        <div>
+                            <h2>Resize Your Image</h2>
+
+                            <p>
+                                Set the dimensions you want.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="resizeRemoveImage"
+                            class="secondary-button">
+                            Remove
+                        </button>
+
+                    </div>
+
+
+                    <!-- PREVIEW -->
+                    <div class="preview-container">
+
+                        <img
+                            id="resizeImagePreview"
+                            src=""
+                            alt="Image preview"
+                        >
+
+                    </div>
+
+
+                    <!-- ORIGINAL DIMENSIONS -->
+                    <div class="file-info-grid">
+
+                        <div class="file-info-card">
+
+                            <span>Original Width</span>
+
+                            <strong id="originalWidth">
+                                --
+                            </strong>
+
+                            <small>px</small>
+
+                        </div>
+
+
+                        <div class="file-info-card">
+
+                            <span>Original Height</span>
+
+                            <strong id="originalHeight">
+                                --
+                            </strong>
+
+                            <small>px</small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RESIZE CONTROLS -->
+                    <div class="resize-controls">
+
+                        <div class="input-group">
+
+                            <label for="resizeWidth">
+                                Width
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="resizeWidth"
+                                    min="1"
+                                    placeholder="Width"
+                                >
+
+                                <span>px</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="aspect-lock">
+
+                            <button
+                                type="button"
+                                id="aspectRatioToggle"
+                                class="aspect-button active"
+                                title="Keep aspect ratio"
+                                aria-label="Keep aspect ratio">
+                                🔗
+                            </button>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="resizeHeight">
+                                Height
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="resizeHeight"
+                                    min="1"
+                                    placeholder="Height"
+                                >
+
+                                <span>px</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTION BUTTONS -->
+                    <div class="action-buttons">
+
+                        <button
+                            type="button"
+                            id="resizeButton"
+                            class="primary-button">
+                            Resize Image
+                        </button>
+
+                        <a
+                            href="#"
+                            id="resizeDownloadButton"
+                            class="secondary-button"
+                            style="display: none;">
+                            Download Image
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FEATURES -->
+        <section class="features-section">
+
+            <div class="section-heading">
+
+                <span>Why PixReduce?</span>
+
+                <h2>
+                    Simple Image Resizing
+                </h2>
+
+                <p>
+                    Resize your images quickly while keeping
+                    everything simple and private.
+                </p>
+
+            </div>
+
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ⚡
+                    </div>
+
+                    <h3>
+                        Fast Processing
+                    </h3>
+
+                    <p>
+                        Resize images directly in your browser
+                        without unnecessary waiting.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🔒
+                    </div>
+
+                    <h3>
+                        Private
+                    </h3>
+
+                    <p>
+                        Your image stays on your device during
+                        the resizing process.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📐
+                    </div>
+
+                    <h3>
+                        Custom Dimensions
+                    </h3>
+
+                    <p>
+                        Choose the exact width and height
+                        you need in pixels.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+	<!-- =========================
+		 FOOTER
+	========================= -->
+	<footer class="site-footer">
+
+		<div class="container footer-content">
+
+			<div class="footer-brand">
+
+				<a href="index.html" class="logo">
+					<span class="logo-icon">P</span>
+					<span class="logo-text">
+						Pix<span>Reduce</span>
+					</span>
+				</a>
+
+				<p>
+					Compress & Resize Images Instantly — 100% Free
+				</p>
+
+			</div>
+
+
+			<div class="footer-links">
+
+				<a href="index.html">
+					Image Compressor
+				</a>
+
+				<a href="resize.html">
+					Image Resizer
+				</a>
+
+				<a href="about.html">
+					About
+				</a>
+
+				<a href="privacy.html">
+					Privacy Policy
+				</a>
+
+			</div>
+
+		</div>
+
+
+		<div class="container footer-bottom">
+
+			<p>
+				© 2026 PixReduce. All rights reserved.
+			</p>
+
+		</div>
+
+	</footer>
+
+
+    <script src="./js/resize.js?v=2"></script>
+
+</body>
+</html>
